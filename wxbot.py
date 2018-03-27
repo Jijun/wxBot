@@ -99,7 +99,7 @@ class WXBot:
             os.makedirs(self.temp_pwd)
 
         self.session = SafeSession()
-        self.session.headers.update({'User-Agent': 'Mozilla/5.0 (X11; Linux i686; U;) Gecko/20070322 Kazehakase/0.4.5'})
+        self.session.headers.update({'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.146 Safari/537.36'})
         self.conf = {'qr': 'png'}
 
         self.my_account = {}  # 当前账户

@@ -19,8 +19,14 @@ from requests.exceptions import ConnectionError, ReadTimeout
 import HTMLParser
 
 qr_url = "http://qr.dingtalk.com/action/login?code=%s"
-qr_generate_code_uuid = "https://login.dingtalk.com/user/qrcode/generate.json"
+qr_generate_code_uuid = "https://login.dingtalk.com/user/qrcode/generate.jsonp?callback=angular.callbacks._0"
+app_key ='85A09F60A599F5E1867EAB915A8BB07F'
 
+SUCCESS = ''
+WAIT_LOGIN = '11021'
+SUCCESS = ''
+TIMEOUT = ''
+SCANED=''
 
 def show_image(file_path):
     """
@@ -38,6 +44,11 @@ def show_image(file_path):
     else:
         webbrowser.open(os.path.join(os.getcwd(),'temp',file_path))
 
+def loads_jsonp(_jsonp):
+    try:
+        return json.loads(re.match(".*?({.*}).*",_jsonp,re.S).group(1))
+    except:
+	    raise ValueError('Invalid Input')
 
 class SafeSession(requests.Session):
     def request(self, method, url, params=None, data=None, headers=None, cookies=None, files=None, auth=None,
@@ -60,23 +71,37 @@ class SafeSession(requests.Session):
         except Exception as e:
             raise e
 
-class DingBot(object):
+class DingBot:
 
     def __init__(self):
+        self.num = 0 # callback 计数器,plus +1
         self.DEBUG = False
         self.conf = {'qr': 'png'}
         self.code_uuid = ''
+        self.app_key = app_key
+        self.session = SafeSession()
+        self.session.headers.update({'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.146 Safari/537.36'})
+        self.my_account = {}  # 当前账户
+        self.temp_pwd = os.path.join(os.getcwd(), 'temp')
+        if os.path.exists(self.temp_pwd) == False:
+            os.mkdir(self.temp_pwd)
+
+        self.my_account = {}
+
 
     def get_code_uuid(self):
         r = self.session.get(qr_generate_code_uuid)
         r.encoding = 'utf-8'
         data = r.text
-        dic = json.load(r.text)
+        dic = loads_jsonp(r.text)
         if dic['success']:
-            return dic['result']
+            self.code_uuid= dic['result']
+            return dic['success']
+        return False
 
     def gen_qr_code(self, qr_file_path):
         string = qr_url % self.code_uuid
+        print(string)
         qr = pyqrcode.create(string)
         if self.conf['qr'] == 'png':
             qr.png(qr_file_path, scale=8)
@@ -89,10 +114,51 @@ class DingBot(object):
     def run(self):
         try:
             self.get_code_uuid()
-            self.gen_qr_code(os.path.join(self.temp_pwd,'wxqr.png'))
+            self.gen_qr_code(os.path.join(self.temp_pwd,'dingtalkqr.png'))
             print '[INFO] Please use DingTalk to scan the QR code .'
-        except Exception,e:
-            pass
+            self.wait4login()
+        except Exception as e:
+            print e
+
+    def do_request(self,url):
+        r = self.session.get(url)
+        r.encoding='utf-8'
+        data = r.text
+        result = loads_jsonp(data);
+        if result.get('success'):
+            return result.get('success'), 200, result['result']
+
+        return result['success'], result['errorCode'], result['errorMsg']
+
+    def wait4login(self):
+        login_check_url = 'https://login.dingtalk.com/user/qrcode/is_logged.jsonp?appKey=%s&callback=angular.callbacks._43' \
+              '&pdmModel=Unknown+&pdmTitle=Unknown++Web&pdmToken=%s&qrcode=%s'
+
+        try_later_secs = 5
+        MAX_RETRY_TIMES = 34
+
+        retry_time = MAX_RETRY_TIMES
+
+        #5秒一次，1,2,3,4...a,b,c,d... x,y
+
+        while retry_time > 0:
+            url = login_check_url % (app_key, '', self.code_uuid)
+
+            success, code, result = self.do_request(url)
+            if success:
+                print '[INFO] %s' % result
+                self.my_account = result;
+                break;
+            elif code == WAIT_LOGIN :
+                print '[ERROR] %s' % result
+            else:
+                print '[ERROR] %s' % result
+
+
 
     def handle_msg_all(self, msg):
         pass
+
+if __name__ == '__main__':
+
+    DingBot().run();

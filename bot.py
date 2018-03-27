@@ -86,9 +86,16 @@ class TulingWXBot(WXBot):
                             if my_names[k] and my_names[k] == detail['value']:
                                 is_at_me = True
                                 break
+                    if detail['type'] == 'str':
+                        for k in my_names:
+                            if my_names[k]:
+                                tmp_name = '@' + my_names[k]
+                                if tmp_name in detail['value']:
+                                    is_at_me = True
+                                    break
                 if is_at_me:
                     src_name = msg['content']['user']['name']
-                    reply = 'to ' + src_name + ': '
+                    reply = '@' + src_name + ': '
                     if msg['content']['type'] == 0:  # text message
                         reply += self.tuling_auto_reply(msg['content']['user']['id'], msg['content']['desc'])
                     else:
@@ -99,7 +106,7 @@ class TulingWXBot(WXBot):
 def main():
     bot = TulingWXBot()
     bot.DEBUG = True
-    bot.conf['qr'] = 'png'
+    bot.conf['qr'] = 'tty'
 
     bot.run()
 
