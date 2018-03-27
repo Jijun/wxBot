@@ -22,6 +22,10 @@ qr_url = "http://qr.dingtalk.com/action/login?code=%s"
 qr_generate_code_uuid = "https://login.dingtalk.com/user/qrcode/generate.jsonp?callback=angular.callbacks._0"
 app_key ='85A09F60A599F5E1867EAB915A8BB07F'
 
+#"wss://webalfa.dingtalk.com",
+#"wss://webalfa-cm3.dingtalk.com",
+#"wss://webalfa-cm10.dingtalk.com"
+
 SUCCESS = ''
 WAIT_LOGIN = '11021'
 SUCCESS = ''
@@ -151,8 +155,13 @@ class DingBot:
                 break;
             elif code == WAIT_LOGIN :
                 print '[ERROR] %s' % result
+                retry_time -= 1
+                time.sleep(try_later_secs)
             else:
                 print '[ERROR] %s' % result
+                retry_time -= 1
+                time.sleep(try_later_secs)
+
 
 
 
