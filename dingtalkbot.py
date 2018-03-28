@@ -46,6 +46,30 @@
     # set-cookie: deviceid=982E48B4-04A8-46CF-B418-EF857181DCBA; Domain=dingtalk.com; Path=/; HttpOnly
     # set-cookie: deviceid_exist=true; Domain=dingtalk.com; Path=/
 
+#https://static.dingtalk.com/media/setCookie?code=ggHaACQ3YTcxYzkzZS05NGFmLTQ5NTYtYjcxMy02ZTMyODA3MzI4MjACsTY3MzMzNTI2QGRpbmdkaW5n&callback=__jp0
+#    request header:
+ #       Cookie: deviceid = AFBA4800 - 758D - 4A41 - 9DC2 - 7E6C2718CD6D;deviceid_exist = true
+    #set-cookie: dd_sid=0bb342f45abba7bd1dfbaebf656408f9b17b21ddb6cd; Max-Age=604800; Expires=Wed, 4 Apr 2018 14:33:44 GMT; Path=/; Domain=dingtalk.com; HTTPOnly
+
+#https://login.dingtalk.com/login/createSessionInfoByTemp.jsonp?callback=jQuery191012696657752934937_1522247583125&sessionId=t-4036d96-626d074599-bb06f1b-27e5ee-1d7cf874-595b04c6-2159-4df8-b9cf-1d920c6cfae7&_=1522247583126
+
+    #request
+        # cookie :Cookie: deviceid=AFBA4800-758D-4A41-9DC2-7E6C2718CD6D; deviceid_exist=true
+
+
+    #Set-Cookie: dt_s=u-4036d96-626d0768e8-bb06f1b-269953-2b43536e-c5aa5108-e5de-4dd8-a202-73122456233c; Domain=.dingtalk.com; Path=/; Secure; HttpOnly
+
+#https: // space.dingtalk.com / v1 / ding / token?callback = jQuery191012696657752934937_1522247583125 & _ = 1522247583127
+    #request heaer
+    # #Cookie: deviceid=AFBA4800-758D-4A41-9DC2-7E6C2718CD6D; deviceid_exist=true; dd_sid=0bb342f45abba7bd1dfbaebf656408f9b17b21ddb6cd; dt_s=u-4036d96-626d0768e8-bb06f1b-269953-2b43536e-c5aa5108-e5de-4dd8-a202-73122456233c
+
+#Set-Cookie: preview_ab=y; Domain=.dingtalk.com; Expires=Thu, 29-Mar-2018 14:33:45 GMT; Path=/; Secure; HttpOnly
+#Set-Cookie: up_ab=y; Domain=.dingtalk.com; Expires=Thu, 29-Mar-2018 14:33:45 GMT; Path=/; Secure; HttpOnly
+#Set-Cookie: preview_ab=y; Domain=.dingtalk.com; Expires=Thu, 29-Mar-2018 14:33:45 GMT; Path=/; Secure; HttpOnly
+#Set-Cookie: up_ab=y; Domain=.dingtalk.com; Expires=Thu, 29-Mar-2018 14:33:45 GMT; Path=/; Secure; HttpOnly
+#Strict-Transport-Security: max-age=31536000; includeSubdomains;
+
+
 # wss://webalfa-cm10.dingtalk.com/long
   #Cookie: cna=cdejEo1CWiUCAdNnh3j1oFwk; UM_distinctid=160d492bff0279-0e7a5ce095d449-3a75045d-1fa400-160d492bff136e; dd_l=zh_CN; dd_sid=0baf79295ab1c0ac2503249bd92473cab4f3226130b3;
 # isg=BAIC-2ju7G7OaPBSa7neK-AhUwHIxn2h_mImuUwao3Ujn6AZNWZ5_oWeS5vjz36F; deviceid=982E48B4-04A8-46CF-B418-EF857181DCBA; deviceid_exist=true

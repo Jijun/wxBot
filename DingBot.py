@@ -163,6 +163,8 @@ class DingBot:
                 time.sleep(try_later_secs)
 
 
+    def setCookie(self):
+        url = 'https://webalfa-cm3.dingtalk.com/setCookie?code=%s&appkey=%s&isSession=true&callback=__jp0'
 
 
     def handle_msg_all(self, msg):
